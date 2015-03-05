@@ -2,7 +2,8 @@
 function INIT()
 {
     initLabfield();
-    Lab.initLabyrinth(); 
+    Lab.initLabyrinth();
+    typeInfoMessage("messageBoxId",sent("in the deep")); 
 }
 
 function initLabfield()
@@ -56,3 +57,4 @@ function setFieldChar(X,Y,Ch)
     var dynId = "x"+X+"y"+Y;
     document.getElementById(dynId).innerHTML = Ch;
 }
+

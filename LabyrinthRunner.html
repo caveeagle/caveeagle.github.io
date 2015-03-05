@@ -1,5 +1,4 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
@@ -10,6 +9,10 @@
 <script type="text/javascript" src="libs/jquery.js"></script>
 
 <script type="text/javascript" src="js/main.js"></script>
+
+<script type="text/javascript" src="js/textPrint.js"></script>
+
+<script type="text/javascript" src="js/textStrings.js"></script>
 
 <script type="text/javascript" src="js/labyrinth.js"></script>
 
@@ -32,24 +35,24 @@ $(window).load(function ()
         
         <div class="head1" align=center>
               
-              Р‘РµРіСѓС‰РёР№ РїРѕ Р»Р°Р±РёСЂРёРЅС‚Сѓ
+              Бегущий по лабиринту
               
         </div>
         
         <br><br>
         <div align=center>
               
-             <input type=button value="  РЎРѕР·РґР°С‚СЊ Р»Р°Р±РёСЂРёРЅС‚  " onclick="generateLab();">
+             <input type=button value="  Создать лабиринт  " onclick="generateLab();">
               
         </div>
 
         <br><br>
-        <div class=messageBox id=messageBox>
+        <div class=messageBox id=messageBoxId>
               
-             Р’ РіР»СѓР±РёРЅР°С… Р»Р°Р±РёСЂРёРЅС‚Р°...
+            &nbsp; 
               
-        </div>
-        
+        </div> 
+        <br><br>
         
     </td>
     <td width=900>
