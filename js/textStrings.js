@@ -10,7 +10,7 @@ SENTENCES['ru'] = SENTENCES_RU;
 
 
 
-SENTENCES_RU["in the deep"] = "В глубинах лабиринта...";
+SENTENCES_RU["in the deep"] = "Р’ РіР»СѓР±РёРЅР°С… Р»Р°Р±РёСЂРёРЅС‚Р°...";
 
-SENTENCES_RU["lab created"] = "И открылась дверь в новый лабиринт";
+SENTENCES_RU["lab created"] = "Р РѕС‚РєСЂС‹Р»Р°СЃСЊ РґРІРµСЂСЊ РІ РЅРѕРІС‹Р№ Р»Р°Р±РёСЂРёРЅС‚";
 
