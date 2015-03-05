@@ -1,0 +1,41 @@
+
+table.mainspace 
+{ 
+    border: black;
+    border-collapse: collapse;
+}
+
+.infofield
+{
+    padding: 10px; 
+    vertical-align: top; 
+}
+
+.head1
+{
+    color: #000002;
+    font-size:24px;
+}
+ 
+.messageBox
+{
+    color: #575757;
+    font-size:18px;
+}
+
+.labfield
+{
+    border-spacing:0px;
+    margin: 0 auto;
+}
+
+.tableBlock
+{
+    vertical-align: middle;
+    align: center;
+    padding: 0px;
+    height: 12px;
+    width: 6px;
+    font-size: 14px;
+    font-family: monospace;
+}
