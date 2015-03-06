@@ -6,9 +6,13 @@ Lab.blocks = new Array();
 
 function generateLab()
 { 
+    typeInfoMessage(sent("daytime exceeded"));
+    Lab.atNight();
     Lab.makeLabyrinth();
+    Runner.Init();
+    Clock.Init();
     Lab.drawLabyrinth();
-    typeInfoMessage("messageBoxId",sent("lab created"));
+    typeInfoMessage(sent("lab created"));
 }
 
 
@@ -70,7 +74,7 @@ Lab.drawLabyrinth = function()
 *       Y точка начала линии
 *       D направление линии ( 1: вверх, 2: вправо, 3:вниз, 4:влево )
 */
-Lab.makeBlockLine = function(X,Y,D)
+Lab.makeBlockLine = function(X,Y,DIR)
 { 
     var x0 = X;
     var y0 = Y;
@@ -78,17 +82,17 @@ Lab.makeBlockLine = function(X,Y,D)
     var dX = 0;
     var dY = 0;
 
-    switch (D) {
-        case 1:  dY = -1 ;
-                 break;
-        case 2:  dX = 1 ;
-                 break;
-        case 3:  dY = 1 ;
-                 break;
-        case 4:  dX = -1 ;
-                 break;
-        default: alert("Error in direction (function makeBlockLine)");
-                 return;
+    switch (DIR) {
+        case UP:    dY = -1 ;
+                    break;
+        case RIGHT: dX = 1 ;
+                    break;
+        case DOWN:  dY = 1 ;
+                    break;
+        case LEFT:  dX = -1 ;
+                    break;
+        default:    alert("Error in step direction");
+                    return false;
     }        
     
     var x1, y1, x2, y2;
@@ -256,5 +260,8 @@ Lab.makeLabyrinth = function()
         this.blocks[44][14] = wellBlock;
 }
 
-
+Lab.atNight = function()
+{
+    
+}
 
