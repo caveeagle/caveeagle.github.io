@@ -8,9 +8,11 @@
 
 <script type="text/javascript" src="libs/jquery.js"></script>
 
+<script type="text/javascript" src="libs/jquery.cookie.mod.js"></script>
+
 <script type="text/javascript" src="js/main.js"></script>
 
-<script type="text/javascript" src="js/printer.js"></script>
+<script type="text/javascript" src="js/clock.js"></script>
 
 <script type="text/javascript" src="js/stringsText.js"></script>
 
@@ -18,7 +20,9 @@
 
 <script type="text/javascript" src="js/variables.js"></script>
 
-<script type="text/javascript" src="js/runnerClass.js"></script>
+<script type="text/javascript" src="js/runner.js"></script>
+
+<script type="text/javascript" src="js/hero.js"></script>
 
 <script>
 $(window).load(function () 
@@ -35,37 +39,25 @@ $(window).load(function ()
   <tr>
     <td class="infofield">
         
-        <div class="head1" align=center>
-              
-              Бегущий по лабиринту
-              
-        </div>
+        <div class="head1" id=head1id align=center></div>
         
         <br><br>
-        <div align=center>
-              
-             <input type=button value="  Создать лабиринт  " onclick="generateLab();">
-              
-        </div>
 
         <br><br>
-        <div class=messageBox id=messageBoxId>
-              
-            &nbsp; 
-              
-        </div> 
+
+        <div class=messageBox id=messageBoxId></div> 
+
         <br><br>
 
-        <div align=center>
-             <input type=button value=" Шаг " onclick="testStep();">
-        </div>
+        <div align=center class=clockBox id=clockBoxId></div> 
+
         <br><br>
-        
-        <div align=center class=clockBox id=clockBoxId>
-              
-            12:00
-              
-        </div> 
+
+        <div align=center class=daycountBox id=daycountBoxId></div> 
+
+        <br><br>
+
+        <div align=center class=wincountBox id=wincountBoxId></div> 
 
         
     </td>

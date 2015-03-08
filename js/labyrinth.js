@@ -6,12 +6,10 @@ Lab.blocks = new Array();
 
 function generateLab()
 { 
-    typeInfoMessage(sent("daytime exceeded"));
-    Lab.atNight();
     Lab.makeLabyrinth();
-    Runner.Init();
     Clock.Init();
-    Lab.drawLabyrinth();
+    Lab.drawHiddenLabyrinth();
+    Runner.Init();
     typeInfoMessage(sent("lab created"));
 }
 
@@ -20,8 +18,10 @@ Lab.initLabyrinth = function()
 {
     for(i=0; i<COLS; i++)
     {
-        Lab.blocks[i] = new Array();
+        this.blocks[i] = new Array();
     }
+    
+    this.stage = NIGHT;
 }
  
 Lab.clearLabyrinth = function()
@@ -57,7 +57,7 @@ Lab.clearLabyrinth = function()
     
 } 
  
-Lab.drawLabyrinth = function()
+Lab.drawOpenLabyrinth = function()
 {
     for (j = 0; j < ROWS; j++)
     {
@@ -68,12 +68,6 @@ Lab.drawLabyrinth = function()
     }
 }
 
-/**
-*   Draw labyrinth lines
-*       X точка начала линии
-*       Y точка начала линии
-*       D направление линии ( 1: вверх, 2: вправо, 3:вниз, 4:влево )
-*/
 Lab.makeBlockLine = function(X,Y,DIR)
 { 
     var x0 = X;
@@ -246,8 +240,6 @@ Lab.makeLabyrinth = function()
         
         Lab.strengthenWalls();
         
-        this.blocks[56][mainRoomYmin] = emptyBlock; // Door from Main Room
-        
         for (i = 86; i < 96; i++) // Make hidden room
         {
             for ( j = 33; j < 37; j++)
@@ -260,8 +252,119 @@ Lab.makeLabyrinth = function()
         this.blocks[44][14] = wellBlock;
 }
 
-Lab.atNight = function()
+Lab.drawHiddenLabyrinth = function()
 {
-    
+    for (j = 0; j < ROWS; j++)
+    {
+        for (i = 0; i < COLS; i++)
+        {
+           var Ch = fogBlock; // by default
+           
+           if( i==0 || j==0 || i==COLS-1 || j==ROWS-1 )
+           {
+                Ch = wallBlock;
+           }
+           
+           if( i==mainRoomXmin && ( j>=mainRoomYmin && j<=mainRoomYmax ) )
+           {
+                Ch = wallBlock;
+           }
+           if( i==mainRoomXmax && ( j>=mainRoomYmin && j<=mainRoomYmax ) )
+           {
+                Ch = wallBlock;
+           }
+           if(  ( i>=mainRoomXmin && i<=mainRoomXmax ) && j==mainRoomYmin )
+           {
+                Ch = wallBlock;
+           }
+           if(  ( i>=mainRoomXmin && i<=mainRoomXmax ) && j==mainRoomYmax )
+           {
+                Ch = wallBlock;
+           }
+           if(  i>mainRoomXmin && i<mainRoomXmax && j>mainRoomYmin && j<mainRoomYmax )
+           {
+                Ch = emptyBlock;
+           }
+           
+           
+           setFieldChar(i,j, Ch );
+        }
+    }
+}
+
+
+Lab.daytimeExceeded = function()
+{
+   if(Runner.outsideRoom(Runner.x,Runner.y)||(Runner.x==gateX&&Runner.y==gateY))
+   {
+        Lab.failed();
+   }
+   else
+   {
+        Lab.night();
+   } 
+}
+
+Lab.failed = function()
+{
+    Hero.death();
+    this.stage = REST;
+    alert(sent("you lose"));
+    alert(sent("hope after death"));
+    typeInfoMessage(sent("outside at night"));
+    Lab.makeLabyrinth();
+    Lab.drawHiddenLabyrinth();
+    Lab.gateClose();
+    setTimeout(Lab.dawn,20000);
+}
+
+
+Lab.night = function()
+{
+    this.stage = NIGHT;
+    typeInfoMessage(sent("daytime exceeded"));
+    Lab.makeLabyrinth();
+    Lab.drawHiddenLabyrinth();
+    Runner.Init();
+    Lab.gateClose();
+    setTimeout(Lab.dawn,20000);
+}
+
+
+Lab.win = function()
+{
+    this.stage = REST;
+    Hero.win();
+    alert(sent("you win")); 
+    alert(sent("hope after win"));
+    typeInfoMessage(sent("after win"));
+    Lab.makeLabyrinth();
+    Lab.drawHiddenLabyrinth();
+    Lab.gateClose();
+    setTimeout(Lab.dawn,20000);
+}
+
+Lab.dawn = function()
+{
+    if(Lab.stage == REST)
+    {
+        Runner.Init();
+    }
+    Lab.stage = DAY;
+    Clock.Init();  
+    Lab.gateOpen();
+    typeInfoMessage(sent("lab created"));
+}
+
+Lab.gateClose = function()
+{
+    this.blocks[gateX][gateY] = wallBlock;
+    setFieldChar(gateX,gateY, wallBlock);
+}
+
+Lab.gateOpen = function()
+{
+    this.blocks[gateX][gateY] = emptyBlock;
+    setFieldChar(gateX,gateY, emptyBlock);
 }
 

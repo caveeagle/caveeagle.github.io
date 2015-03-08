@@ -1,13 +1,19 @@
 
+var lang = "ru"; // язык интерфейса
+
 function INIT()
 {
+    $('#head1id').text(sent("header_txt"));  
     initLabfield();
     Lab.initLabyrinth();
     Lab.makeLabyrinth();
+    Lab.drawHiddenLabyrinth();
+    Lab.stage = NIGHT;
     Runner.Init();
-    Clock.Init();
-    Lab.drawLabyrinth();
-    typeInfoMessage(sent("in the deep")); 
+    Hero.init();
+    setTimeout(Lab.dawn,3000);
+    typeInfoMessage(sent("in the deep"));
+    $(document).keypress(keyChecker);
 }
 
 //  ############################ //
@@ -41,15 +47,6 @@ function initLabfield()
             
             tCell.addClass("tableBlock");
             
-            var dynId = "x"+i+"y"+j;
-            
-            if(i==1&&j==1)
-            {
-              dynId = "AAA";  
-              tCell.id = dynId;
-            }
-
-                
             tRow.append(tCell);
         }
 
@@ -67,51 +64,87 @@ function setFieldChar(X,Y,Ch)
 }
 
 //  ############################ //
-//        Clock section          //
+//      TEXT PRINT SECTION       //
+//  ############################ //
+         
+function sent(str)
+{
+   return SENTENCES[lang][str] ? SENTENCES[lang][str] : "";
+}         
+         
+var textIntervalTimerID;
+function typeInfoMessage(message)
+{
+    var containerId = "messageBoxId"; // DEFAULT VALUE
+    
+    if(arguments[1])
+    {
+        containerId = arguments[1];
+    }
+    
+    var TYPING_DELAY = 20; // in msec
+    
+    var STRING = message;
+    
+    var c=STRING.length;
+    var j=0;
+    
+    
+    $('#'+containerId).addClass('after_str');
+    $('#'+containerId).text("");
+    
+    if(textIntervalTimerID)
+    {
+        clearInterval(textIntervalTimerID);
+    }
+    
+    textIntervalTimerID = setInterval(function()
+    {
+        if(j<c)
+        {
+            $('#'+containerId).text($('#'+containerId).text()+STRING[j]);
+            j=j+1;
+        }
+        else 
+        {
+            $('#'+containerId).removeClass('after_str');
+            clearInterval(textIntervalTimerID);
+        }
+        
+    },TYPING_DELAY);
+}
+
+//  ############################ //
+//       Keyboard section        //
 //  ############################ //
 
-Number.prototype.pad = function(size) 
+function keyChecker(e)
 {
-      var s = String(this);
-      while (s.length < (size || 2)) {s = "0" + s;}
-      return s;
-}
+    var DIR = e.keyCode-37;
+    if(DIR==0){ DIR=4; }
     
-var Clock = {};
-
-Clock.Init = function()
-{
-    this.CLOCKSTEP =~~ (720/DAYSTEPS);
-    
-    this.hours   = 12;
-    this.minutes =  0;
-    
-    var mStr = this.minutes.pad(2);
-    
-    $("#clockBoxId").text(this.hours+":"+mStr);
+    if(DIR>=1&&DIR<=4)
+    {
+        Runner.direction = DIR;
+        STEP();
+    }
 }
 
-Clock.step = function()
+//  ############################ //
+//       Main step section       //
+//  ############################ //
+
+function STEP()
 {
-    this.minutes -= this.CLOCKSTEP;
-
-    if(this.minutes<0)
-    {
-        this.minutes +=  60;
-        this.hours -= 1;
-    }
-
-    if(this.hours<0)
-    {
-        this.minutes = 0;
-        this.hours = 0;
-        typeInfoMessage(sent("daytime exceeded"));
-    }
-    
-    var mStr = this.minutes.pad(2);
-    var hStr = this.hours.pad(2);
- 
-    $("#clockBoxId").text(hStr+":"+mStr);
+  if(Lab.stage != REST)
+  {
+    Runner.step();
+  }
+  
+  if(Lab.stage == DAY)
+  {
+    Clock.step(); 
+  }
 }
 
 
